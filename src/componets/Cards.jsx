@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
+import Loader from "./Loader";
 
 const BASE_URL = "http://localhost:9000/characters";
 
@@ -14,7 +15,8 @@ function Cards({ setScore, score }) {
       try {
         const response = await fetch(BASE_URL);
         const data = await response.json();
-        setCards(data);
+
+        setCards(() => shuffleCards(data));
       } catch (error) {
         console.error("Error happened fetching the data", error);
       } finally {
@@ -61,7 +63,7 @@ function Cards({ setScore, score }) {
     }
   }
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   console.log(cards);
 
   return (
